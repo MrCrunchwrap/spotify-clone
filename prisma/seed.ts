@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 
 const run = async () => {
   await Promise.all(
-    artistsData.map(async (artist) =>
-      prisma.artist.upsert({
+    artistsData.map(async (artist) => {
+      return prisma.artist.upsert({
         where: { name: artist.name },
         update: {},
         create: {
@@ -20,8 +20,8 @@ const run = async () => {
             })),
           },
         },
-      })
-    )
+      });
+    })
   );
 
   const salt = bcrypt.genSaltSync();
@@ -31,6 +31,8 @@ const run = async () => {
     create: {
       email: "user@test.com",
       password: bcrypt.hashSync("password", salt),
+      firstName: "Michael",
+      lastName: "McDonald",
     },
   });
 
