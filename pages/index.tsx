@@ -1,18 +1,20 @@
 import { Box, Text, Flex } from "@chakra-ui/layout";
 import { Image } from "@chakra-ui/react";
+import { Artist } from "@prisma/client";
 import GradientLayout from "../components/gradientLayout";
 import { useMe } from "../lib/hooks";
 import prisma from "../lib/prisma";
 
-const Home = ({ artists }) => {
+const Home = ({ artists }: { artists: Artist[] }) => {
   const { user } = useMe();
+  console.log(artists);
   return (
     <GradientLayout
       roundImage
-      color="purple"
+      color="gray"
       subtitle="profile"
       title={`${user?.firstName} ${user?.lastName}`}
-      description="15 public playlists"
+      description={`${user?.playlistsCount} public playlists`}
       image="https://dl.dropboxusercontent.com/s/bgiv0ssz3xpotz9/peep.png?dl=0"
     >
       <Box color="white" paddingX="40px">
@@ -23,20 +25,27 @@ const Home = ({ artists }) => {
           <Text fontSize="md">only visible to you</Text>
         </Box>
         <Flex>
-          {artists.map((artist) => (
-            <Box paddingX="10px" width="20%" key={artist}>
-              <Box bg="gray.900" borderRadius="4px" padding="15px" width="100%">
-                <Image
-                  src="https://placekitten.com/300/300"
-                  borderRadius="100%"
-                />
-                <Box marginTop="20px">
-                  <Text fontSize="large">{artist.name}</Text>
-                  <Text fontSize="x-small">Artist</Text>
+          {artists.map((artist) => {
+            return (
+              <Box paddingX="10px" width="20%" key={artist.name}>
+                <Box
+                  bg="gray.900"
+                  borderRadius="4px"
+                  padding="15px"
+                  width="100%"
+                >
+                  <Image
+                    src="https://placekitten.com/300/300"
+                    borderRadius="100%"
+                  />
+                  <Box marginTop="20px">
+                    <Text fontSize="large">{artist.name}</Text>
+                    <Text fontSize="x-small">Artist</Text>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          ))}
+            );
+          })}
         </Flex>
       </Box>
     </GradientLayout>
