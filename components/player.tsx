@@ -10,7 +10,6 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-
 import ReactHowler from "react-howler";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -31,9 +30,9 @@ const Player = ({ songs, activeSong }) => {
   const [shuffle, setShuffle] = useState(false);
   const [duration, setDuration] = useState(0.0);
 
-  //   const setPlayState = (value) => {
-
-  //   }
+  const setPlayState = (value) => {
+    setPlaying(value);
+  };
 
   const onShuffle = () => {
     setShuffle((state) => !state);
@@ -45,8 +44,10 @@ const Player = ({ songs, activeSong }) => {
 
   return (
     <Box>
-      <Box>{/* <ReactHowler playing={playing} src={activeSong?.url} /> */}</Box>
-      <Center>
+      <Box>
+        <ReactHowler playing={playing} src={activeSong?.url} />
+      </Box>
+      <Center color="gray.600">
         <ButtonGroup>
           <IconButton
             outline="none"
@@ -54,8 +55,8 @@ const Player = ({ songs, activeSong }) => {
             aria-label="shuffle"
             fontSize="24px"
             color={shuffle ? "white" : "gray.600"}
-            icon={<MdShuffle />}
             onClick={onShuffle}
+            icon={<MdShuffle />}
           />
           <IconButton
             outline="none"
@@ -72,7 +73,7 @@ const Player = ({ songs, activeSong }) => {
               fontSize="40px"
               color="white"
               icon={<MdOutlinePauseCircleFilled />}
-              onClick={() => setPlaying(false)}
+              onClick={() => setPlayState(false)}
             />
           ) : (
             <IconButton
@@ -82,9 +83,10 @@ const Player = ({ songs, activeSong }) => {
               fontSize="40px"
               color="white"
               icon={<MdOutlinePlayCircleFilled />}
-              onClick={() => setPlaying(true)}
+              onClick={() => setPlayState(true)}
             />
           )}
+
           <IconButton
             outline="none"
             variant="link"
@@ -98,8 +100,8 @@ const Player = ({ songs, activeSong }) => {
             aria-label="repeat"
             fontSize="24px"
             color={repeat ? "white" : "gray.600"}
-            icon={<MdOutlineRepeat />}
             onClick={onRepeat}
+            icon={<MdOutlineRepeat />}
           />
         </ButtonGroup>
       </Center>
@@ -111,7 +113,7 @@ const Player = ({ songs, activeSong }) => {
           </Box>
           <Box width="80%">
             <RangeSlider
-              // aria-label={["min", "max"]}
+              aria-label={["min", "max"]}
               step={0.1}
               min={0}
               max={321}
@@ -123,8 +125,8 @@ const Player = ({ songs, activeSong }) => {
               <RangeSliderThumb index={0} />
             </RangeSlider>
           </Box>
-          <Box width="10%">
-            <Text fontSize="xs">3:21</Text>
+          <Box width="10%" textAlign="right">
+            <Text fontSize="xs">321</Text>
           </Box>
         </Flex>
       </Box>
