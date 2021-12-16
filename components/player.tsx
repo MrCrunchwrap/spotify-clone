@@ -19,9 +19,13 @@ import {
   MdOutlinePlayCircleFilled,
   MdOutlinePauseCircleFilled,
   MdOutlineRepeat,
+  MdFavorite,
+  MdFavoriteBorder,
 } from "react-icons/md";
 import { useStoreActions } from "easy-peasy";
 import { formatTime } from "../lib/formatters";
+import { addLike, unlike } from "../lib/mutations";
+import { usePlaylist } from "../lib/hooks";
 
 const Player = ({ songs, activeSong }) => {
   const [playing, setPlaying] = useState(true);
@@ -36,6 +40,7 @@ const Player = ({ songs, activeSong }) => {
   const soundRef = useRef(null);
   const repeatRef = useRef(repeat);
   const setActiveSong = useStoreActions((state: any) => state.changeActiveSong);
+  const { mutate } = usePlaylist();
 
   useEffect(() => {
     let timerId;
@@ -113,6 +118,18 @@ const Player = ({ songs, activeSong }) => {
     soundRef.current.seek(e[0]);
   };
 
+  const handleLikeClick = async () => {
+    if (activeSong.liked) {
+      // send a request to the API to update the source
+      await unlike({ song: activeSong });
+      mutate();
+    } else {
+      // send a request to the API to update the source
+      await addLike({ song: activeSong });
+      mutate();
+    }
+  };
+
   return (
     <Box>
       <Box>
@@ -126,6 +143,15 @@ const Player = ({ songs, activeSong }) => {
       </Box>
       <Center color="gray.600">
         <ButtonGroup>
+          <IconButton
+            outline="none"
+            variant="link"
+            aria-label="like"
+            fontSize="24px"
+            color="green"
+            onClick={handleLikeClick}
+            icon={activeSong.liked ? <MdFavorite /> : <MdFavoriteBorder />}
+          />
           <IconButton
             outline="none"
             variant="link"

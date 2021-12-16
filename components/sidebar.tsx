@@ -44,13 +44,11 @@ const musicMenu = [
     route: "/",
   },
   {
-    name: "Favorites",
+    name: "Liked Songs",
     icon: MdFavorite,
     route: "/favorites",
   },
 ];
-
-// const playlists = new Array(30).fill(1).map((_, i) => `Playlist ${i + 1}`)
 
 const Sidebar = () => {
   const { playlists } = usePlaylist();

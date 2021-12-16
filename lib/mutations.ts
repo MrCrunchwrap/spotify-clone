@@ -11,3 +11,11 @@ export const auth = (
 ) => {
   return fetcher(`/${mode}`, body);
 };
+
+export const addLike = (body) => {
+  return fetcher(`/liked/add`, body);
+};
+
+export const unlike = (body) => {
+  return fetcher(`/unlike`, body);
+};
