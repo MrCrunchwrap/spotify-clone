@@ -1,4 +1,4 @@
-import { Box, Flex, Input, Button } from "@chakra-ui/react";
+import { Box, Flex, Input, Button, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import NextImage from "next/image";
@@ -7,6 +7,8 @@ import { auth } from "../lib/mutations";
 const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -14,7 +16,7 @@ const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
     e.preventDefault();
     setIsLoading(true);
 
-    await auth(mode, { email, password });
+    await auth(mode, { firstName, lastName, email, password });
     setIsLoading(false);
     router.push("/");
   };
@@ -31,7 +33,24 @@ const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
       </Flex>
       <Flex justify="center" align="center" height="calc(100vh - 100px)">
         <Box padding="50px" bg="gray.900" borderRadius="6px">
+          <Text fontWeight="bold" casing="capitalize">
+            {mode}
+          </Text>
           <form onSubmit={handleSubmit}>
+            {mode === "signup" && (
+              <>
+                <Input
+                  placeholder="John"
+                  type="text"
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                <Input
+                  placeholder="Doe"
+                  type="text"
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </>
+            )}
             <Input
               placeholder="email"
               type="email"
@@ -54,6 +73,7 @@ const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
             >
               {mode}
             </Button>
+            <span>Already have an account? Sign in.</span>
           </form>
         </Box>
       </Flex>
