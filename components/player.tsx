@@ -189,6 +189,7 @@ const Player = ({ songs, activeSong }) => {
         <Flex justify="center" align="center">
           <Box width="10%">
             <Text fontSize="xs">{formatTime(seek)}</Text>
+            <Text>Hello</Text>
           </Box>
           <Box width="80%">
             <RangeSlider
